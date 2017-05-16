@@ -34,34 +34,6 @@ How to run the application
 
 -----------------------------------------------------------
 
-What the folders should look like
-
------------------------------------------------------------
-
-Your Folder Name
-|
-|__OPEN COMMAND PROMPT HERE
-|
-|__trains.png
-|
-|__stations.trf
-|
-|__app
-   |
-   |__trainroutefinder
-      |
-      |__gui
-      |
-      |__main
-      |
-      |__objects
-      |
-      |__utils
-      |
-      |__etc...
-
------------------------------------------------------------
-
 How to open the command prompt in a specific folder
 
 -----------------------------------------------------------
