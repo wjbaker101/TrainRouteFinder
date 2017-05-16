@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Class for a route between 2 stations.
+ * Implements Serializable so it can be saved in a file.
  * 
  * @author William Baker
  *
@@ -13,7 +14,7 @@ import java.util.List;
 public class Route implements Serializable
 {
 	/**
-	 * 
+	 * Serial ID for serialisation.
 	 */
 	private static final long serialVersionUID = 1130827680500960664L;
 

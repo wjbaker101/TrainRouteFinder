@@ -28,12 +28,14 @@ import app.trainroutefinder.objects.StationsManager;
 public abstract class BaseScreen
 {
 	/**
-	 * Stores the listener for when a comboBox is interacted with.
+	 * Stores the listener for when an action has been performed.
+	 * Mainly used for comboBoxes or buttons when they have been selected/ clicked.
 	 */
 	protected ActionListener actionListener;
 	
 	/**
 	 * Stores the listener for when a textField is interacted with.
+	 * Mainly used for textFields when the text has been changed.
 	 */
 	protected DocumentListener textFieldListener;
 	
@@ -45,12 +47,15 @@ public abstract class BaseScreen
 	 */
 	public BaseScreen(Container container, StationsManager stationsManager)
 	{
+		// Creates the action listener for components in this screen
 		this.actionListener = new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) { actionListenerPerformed(e); }
 		};
 		
+		// Creates the document listener for components in this screen
+		// Overrides different update types to call the same method
 		this.textFieldListener = new DocumentListener()
 		{
 			@Override
@@ -73,7 +78,7 @@ public abstract class BaseScreen
 	protected JPanel createSeparatorPanel()
 	{
 		JPanel panel = new JPanel();
-		panel.setBorder(new EmptyBorder(16, 0, 16, 0)); // Adds vertical margin
+		panel.setBorder(new EmptyBorder(16, 0, 16, 0)); // Adds vertical padding
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		panel.add(new JSeparator()); // Adds a separator into the panel
@@ -94,7 +99,7 @@ public abstract class BaseScreen
 			BufferedImage bufferedImage = ImageIO.read(new File(image)); // Reads from the given directory and creates an image if possible
 			label.setIcon(new ImageIcon(bufferedImage)); // Sets the icon to the image
 		}
-		catch (Exception e) {}
+		catch (Exception e) { }
 	}
 	
 	/**

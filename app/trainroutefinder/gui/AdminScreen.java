@@ -30,19 +30,35 @@ import app.trainroutefinder.utils.FileUtils;
  */
 public class AdminScreen extends BaseScreen
 {
-	// Stores the stations information available to the user
+	/**
+	 * Stores the stations and routes information available to the user.
+	 */
 	private StationsManager stationsManager;
 
-	// ComboBoxes, allows the user to pick an item from the given options
-	private JComboBox<String> departingCombo, destinationCombo;
+	/**
+	 * ComboBox allowing the user to select a departing station.
+	 */
+	private JComboBox<String> departingCombo;
 	
-	// JLists, allows the user to pick an item from a set of items
+	/**
+	 * ComboBox allowing the user to select a destination station.
+	 */
+	private JComboBox<String> destinationCombo;
+	
+	/**
+	 * Displays a list of stops for the admin.
+	 * Each item is able to be selected, allowing the user to manipulate individual items or order.
+	 */
 	private JList<String> stopsList;
 	
-	// Stores the items for the stopsList
+	/**
+	 * Stores the items for the stopsList.
+	 */
 	private DefaultListModel<String> stopsListModel; 
 
-	// TextFields, allows the user to input text
+	/**
+	 * TextField allowing the user to input a name for a new stop.
+	 */
 	private JTextField newStopTextField;
 	
 	/**
@@ -54,12 +70,13 @@ public class AdminScreen extends BaseScreen
 	public AdminScreen(Container container, StationsManager sm)
 	{
 		super(container, sm);
-		stationsManager = sm;
+		stationsManager = sm; // Sets the correct information
 		
 		JPanel leftPanel = new JPanel();
 		leftPanel.setBorder(new EmptyBorder(16, 8, 16, 8));
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		
+		// BoxLayout.Y_AXIS allows components to be stacked vertically
 		JPanel leftComponentsPanel = new JPanel();
 		leftComponentsPanel.setLayout(new BoxLayout(leftComponentsPanel, BoxLayout.Y_AXIS));
 		
@@ -70,7 +87,8 @@ public class AdminScreen extends BaseScreen
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(16, 8, 16, 8));
 		rightPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		
+
+		// BoxLayout.Y_AXIS allows components to be stacked vertically
 		JPanel rightComponentsPanel = new JPanel();
 		rightComponentsPanel.setLayout(new BoxLayout(rightComponentsPanel, BoxLayout.Y_AXIS));
 		
@@ -79,10 +97,11 @@ public class AdminScreen extends BaseScreen
 		rightPanel.add(rightComponentsPanel);
 
 		// Add components to main panel
+		
 		container.add(leftPanel);
 		container.add(rightPanel);
 		
-		addStopsToList();
+		addStopsToList(); // Adds stops in currently selected route to the JList
 	}
 
 	/**
@@ -92,8 +111,6 @@ public class AdminScreen extends BaseScreen
 	 */
 	private void addLeftComponents(JPanel panel)
 	{
-		// Title panel
-		// Add title components to title panel
 		JPanel titlePanel = new JPanel();
 		titlePanel.setBorder(new EmptyBorder(0, 0, 16, 0));
 		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -103,8 +120,6 @@ public class AdminScreen extends BaseScreen
 		
 		titlePanel.add(titleLabel);
 		
-		// Departing station panel
-		// Add departing components to departing panel
 		JPanel departingPanel = new JPanel();
 		departingPanel.setBorder(new EmptyBorder(0, 0, 16, 0));
 		departingPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -114,15 +129,12 @@ public class AdminScreen extends BaseScreen
 		
 		departingCombo = new JComboBox<String>();
 		departingCombo.setActionCommand("departingCombo"); // Sets unique action command
-		departingCombo.addActionListener(this.actionListener); // Sets listener for the comboBox
+		departingCombo.addActionListener(this.actionListener); // Sets listener for the comboBox (when selected)
 		addDepartingStations(); // Adds initial departing stations
-		addDepartingStations();
 		
 		departingPanel.add(departingLabel);
 		departingPanel.add(departingCombo);
 		
-		// Destination station panel
-		// Add destination components to destination panel
 		JPanel destinationPanel = new JPanel();
 		destinationPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		
@@ -131,14 +143,15 @@ public class AdminScreen extends BaseScreen
 		
 		destinationCombo = new JComboBox<String>();
 		destinationCombo.setActionCommand("destinationCombo"); // Sets unique action command
-		destinationCombo.addActionListener(this.actionListener); // Sets listener for the comboBox
+		destinationCombo.addActionListener(this.actionListener); // Sets listener for the comboBox (when selected)
 		addDestinationStations(); // Adds initial destination stations
 		addDestinationStations();
 		
 		destinationPanel.add(destinationLabel);
 		destinationPanel.add(destinationCombo);
-
+		
 		// Add components to main panel
+		
 		panel.add(titlePanel);
 		panel.add(departingPanel);
 		panel.add(destinationPanel);
@@ -151,8 +164,6 @@ public class AdminScreen extends BaseScreen
 	 */
 	private void addRightComponents(JPanel panel)
 	{
-		// Title panel
-		// Add title components to title panel
 		JPanel titlePanel = new JPanel();
 		titlePanel.setBorder(new EmptyBorder(0, 0, 8, 0));
 		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -162,8 +173,6 @@ public class AdminScreen extends BaseScreen
 		
 		titlePanel.add(titleLabel);
 		
-		// Description panel
-		// Add description components to description panel
 		JPanel descriptionPanel = new JPanel();
 		descriptionPanel.setBorder(new EmptyBorder(0, 0, 16, 0));
 		descriptionPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -172,8 +181,6 @@ public class AdminScreen extends BaseScreen
 		
 		descriptionPanel.add(descriptionLabel);
 		
-		// List panel
-		// Add list components to list panel
 		JPanel listPanel = new JPanel();
 		listPanel.setBorder(new EmptyBorder(0, 0, 8, 0));
 		listPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -184,19 +191,20 @@ public class AdminScreen extends BaseScreen
 		
 		JScrollPane stopsScrollPane = new JScrollPane(stopsList); // Add scrollbar to list
 		stopsScrollPane.setPreferredSize(new Dimension(150, 150));
-		
+
+		// BoxLayout.Y_AXIS allows components to be stacked vertically
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
 		
 		JButton upButton = new JButton("\u25B2"); // Unicode for UP arrow
 		upButton.setFocusable(false);
-		upButton.setActionCommand("upButton");
-		upButton.addActionListener(actionListener);
+		upButton.setActionCommand("upButton"); // Sets unique action command
+		upButton.addActionListener(actionListener); // Sets listener for the button (when clicked)
 		
 		JButton downButton = new JButton("\u25Bc"); // Unicode for DOWN arrow
 		downButton.setFocusable(false);
-		downButton.setActionCommand("downButton");
-		downButton.addActionListener(actionListener);
+		downButton.setActionCommand("downButton"); // Sets unique action command
+		downButton.addActionListener(actionListener); // Sets listener for the button (when clicked)
 		
 		controlsPanel.add(upButton);
 		controlsPanel.add(downButton);
@@ -204,8 +212,6 @@ public class AdminScreen extends BaseScreen
 		listPanel.add(stopsScrollPane);
 		listPanel.add(controlsPanel);
 		
-		// New stop panel
-		// Add new stop components to new stop panel
 		JPanel newStopPanel = new JPanel();
 		newStopPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		
@@ -225,6 +231,7 @@ public class AdminScreen extends BaseScreen
 		newStopPanel.add(removeStopButton);
 
 		// Add components to main panel
+		
 		panel.add(titlePanel);
 		panel.add(descriptionPanel);
 		panel.add(listPanel);
@@ -260,10 +267,10 @@ public class AdminScreen extends BaseScreen
 				saveToFile();
 				break;
 			case "upButton":
-				swapStopList(-1);
+				swapStopList(-1); // -1 moves the selected item up the list, smaller index therefore closer to the start
 				break;
 			case "downButton":
-				swapStopList(1);
+				swapStopList(1); // 1 moves the selected item down the list, larger index therefore closer to the end
 				break;
 		}
 	}
@@ -328,7 +335,7 @@ public class AdminScreen extends BaseScreen
 		{
 			FileUtils.writeStationsToFile(stationsManager.routes, stationsManager.getSaveLocation().getAbsolutePath()); // Attempts to write stations to a file
 		}
-		catch(Exception ex) { ex.printStackTrace(); }
+		catch(Exception e) { }
 	}
 	
 	/**
@@ -343,10 +350,10 @@ public class AdminScreen extends BaseScreen
 					
 			if (route != null) // Checks whether the route exists
 			{
-				route.getStops().add(newStopTextField.getText());
-				stopsListModel.addElement(newStopTextField.getText());
+				route.getStops().add(newStopTextField.getText()); // Adds the new stop to the route
+				stopsListModel.addElement(newStopTextField.getText()); // Adds the new stop to the list
 				
-				newStopTextField.setText("");
+				newStopTextField.setText(""); // Resets the text in the textField, allows user to enter another input
 			}
 		}
 	}

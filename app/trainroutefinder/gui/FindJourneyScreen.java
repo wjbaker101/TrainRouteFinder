@@ -39,24 +39,45 @@ import app.trainroutefinder.utils.Utils;
  */
 public class FindJourneyScreen extends BaseScreen
 {
+	/**
+	 * Stores the main container the components will be added to.
+	 * Used as the parent for the OpenFileDialog.
+	 */
 	private Container container;
 	
-	// Stores the stations information available to the user
+	/**
+	 * Stores the stations and routes information available to the user.
+	 */
 	private StationsManager stationsManager;
 	
-	// Stores the journey information the user has currently chosen
+	/**
+	 * Stores the current journey information the user has chosen.
+	 */
 	private JourneyInformation journeyInformation;
 	
-	// ComboBoxes, allows the user to pick an item from the given options
+	/**
+	 * ComboBox, allows the user to update the journey information to display which route they would like to view.
+	 */
 	private JComboBox<String> departingCombo, destinationCombo, journeyTypeCombo, stopsCombo;
 	
-	// Labels, displays information to the user
-	private JLabel fileErrorLabel, departingLabel, destinationLabel, stopsListLabel, dateOutputLabel, dateErrorLabel, timeOutputLabel, costOutputLabel;
+	/**
+	 * Label, displays an error message to the user if something has gone wrong or if they have entered an invlid input.
+	 */
+	private JLabel fileErrorLabel, dateErrorLabel;
 	
-	// TextFields, allows the user to input text
+	/**
+	 * Label, displays the information of the currently selected route.
+	 */
+	private JLabel departingLabel, destinationLabel, stopsListLabel, dateOutputLabel, timeOutputLabel, costOutputLabel;
+	
+	/**
+	 * TextField allowing the user to input the date of travel.
+	 */
 	private JTextField dateTextField;
 	
-	// Buttons, allows the user to perform actions
+	/**
+	 * Button allowing the user to select a file to load or store the routes in.
+	 */
 	private JButton fileSelectButton;
 	
 	/**
@@ -68,14 +89,15 @@ public class FindJourneyScreen extends BaseScreen
 	public FindJourneyScreen(Container container, StationsManager sm)
 	{
 		super(container, sm);
-		this.container = container;
-		stationsManager = sm;
-		journeyInformation = new JourneyInformation();
+		this.container = container; // Assigns the container of the screen
+		stationsManager = sm; // Sets the correct information
+		journeyInformation = new JourneyInformation(); // Creates a new object to store the journey information in
 		
 		JPanel leftPanel = new JPanel();
 		leftPanel.setBorder(new EmptyBorder(16, 8, 16, 8));
 		leftPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		
+
+		// BoxLayout.Y_AXIS allows components to be stacked vertically
 		JPanel leftComponentsPanel = new JPanel();
 		leftComponentsPanel.setLayout(new BoxLayout(leftComponentsPanel, BoxLayout.Y_AXIS));
 		
@@ -86,18 +108,21 @@ public class FindJourneyScreen extends BaseScreen
 		JPanel rightPanel = new JPanel();
 		rightPanel.setBorder(new EmptyBorder(16, 8, 16, 8));
 		rightPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		
+
+		// BoxLayout.Y_AXIS allows components to be stacked vertically
 		JPanel rightComponentsPanel = new JPanel();
 		rightComponentsPanel.setLayout(new BoxLayout(rightComponentsPanel, BoxLayout.Y_AXIS));
 		
 		addRightComponents(rightComponentsPanel);
 		
 		rightPanel.add(rightComponentsPanel);
+
+		// Add components to main panel
 		
 		container.add(leftPanel);
 		container.add(rightPanel);
 		
-		setJourneyInformation();
+		setJourneyInformation(); // Sets the initial journey information to be displayed to the user
 	}
 	
 	/**
@@ -123,8 +148,8 @@ public class FindJourneyScreen extends BaseScreen
 		JLabel fileSelectLabel = new JLabel("Select routes file:");
 		
 		fileSelectButton = new JButton(this.stationsManager.getSaveLocation().getName());
-		fileSelectButton.setActionCommand("fileSelectButton");
-		fileSelectButton.addActionListener(actionListener);
+		fileSelectButton.setActionCommand("fileSelectButton"); // Sets unique action command
+		fileSelectButton.addActionListener(actionListener); // Sets listener for the button (when clicked)
 		
 		fileSelectPanel.add(fileSelectLabel);
 		fileSelectPanel.add(fileSelectButton);
@@ -147,8 +172,6 @@ public class FindJourneyScreen extends BaseScreen
 		
 		subTitlePanel.add(subTitleLabel);
 		
-		// Date panel
-		// Add date components to date panel
 		JPanel datePanel = new JPanel();
 		datePanel.setBorder(new EmptyBorder(0, 0, 8, 0));
 		datePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -183,15 +206,13 @@ public class FindJourneyScreen extends BaseScreen
 		
 		departingCombo = new JComboBox<String>();
 		departingCombo.setActionCommand("departingCombo"); // Sets unique action command
-		departingCombo.addActionListener(this.actionListener); // Sets listener for the comboBox
+		departingCombo.addActionListener(this.actionListener); // Sets listener for the comboBox (when selected)
 		addDepartingStations(); // Adds initial departing stations
-		journeyInformation.setDepartingStation(departingCombo.getSelectedItem().toString());
+		journeyInformation.setDepartingStation(departingCombo.getSelectedItem().toString()); // Sets initial journey information
 		
 		departingPanel.add(departingLabel);
 		departingPanel.add(departingCombo);
 		
-		// Destination Station panel
-		// Add departing components to destination panel
 		JPanel destinationPanel = new JPanel();
 		destinationPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		
@@ -200,15 +221,13 @@ public class FindJourneyScreen extends BaseScreen
 		
 		destinationCombo = new JComboBox<String>();
 		destinationCombo.setActionCommand("destinationCombo"); // Sets unique action command
-		destinationCombo.addActionListener(this.actionListener); // Sets listener for the comboBox
+		destinationCombo.addActionListener(this.actionListener); // Sets listener for the comboBox (when selected)
 		addDestinationStations(); // Adds initial destination stations
 		journeyInformation.setDestinationStation(destinationCombo.getSelectedItem().toString());
 		
 		destinationPanel.add(destinationLabel);
 		destinationPanel.add(destinationCombo);
 		
-		// Journey Type panel
-		// Add Journey Type components to Journey Type panel
 		JPanel journeyTypePanel = new JPanel();
 		journeyTypePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		
@@ -244,17 +263,13 @@ public class FindJourneyScreen extends BaseScreen
 	 */
 	private void addRightComponents(JPanel panel)
 	{
-		// Image panel
-		// Add image components to image panel
 		JPanel imagePanel = new JPanel();
 		
 		JLabel imageLabel = new JLabel();
-		addImageToLabel("trains.png", imageLabel);
+		addImageToLabel("trains.png", imageLabel); // Display an image in this label
 		
 		imagePanel.add(imageLabel);
 		
-		// Stations panel
-		// Add stations components to stations panel
 		JPanel stationsPanel = new JPanel();
 		
 		departingLabel = new JLabel();
@@ -266,8 +281,6 @@ public class FindJourneyScreen extends BaseScreen
 		stationsPanel.add(stationsLabel);
 		stationsPanel.add(destinationLabel);
 		
-		// Stops panel
-		// Add stops components to stops panel
 		JPanel stopsPanel = new JPanel();
 		stopsPanel.setBorder(new EmptyBorder(0, 0, 16, 0));
 		stopsPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -281,8 +294,6 @@ public class FindJourneyScreen extends BaseScreen
 		stopsPanel.add(stopsLabel);
 		stopsPanel.add(stopsCombo);
 		
-		// Stations panel
-		// Add stations components to stations panel
 		JPanel stopsListPanel = new JPanel();
 		stopsListPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		
@@ -290,8 +301,6 @@ public class FindJourneyScreen extends BaseScreen
 		
 		stopsListPanel.add(stopsListLabel);
 		
-		// Stations panel
-		// Add stations components to stations panel
 		JPanel datePanel = new JPanel();
 		datePanel.setBorder(new EmptyBorder(0, 0, 16, 0));
 		datePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -303,8 +312,6 @@ public class FindJourneyScreen extends BaseScreen
 		datePanel.add(dateLabel);
 		datePanel.add(dateOutputLabel);
 		
-		// Stations panel
-		// Add stations components to stations panel
 		JPanel timePanel = new JPanel();
 		timePanel.setBorder(new EmptyBorder(0, 0, 16, 0));
 		timePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
@@ -316,8 +323,6 @@ public class FindJourneyScreen extends BaseScreen
 		timePanel.add(timeLabel);
 		timePanel.add(timeOutputLabel);
 		
-		// Stations panel
-		// Add stations components to stations panel
 		JPanel costPanel = new JPanel();
 		costPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 8, 0));
 		
@@ -329,6 +334,7 @@ public class FindJourneyScreen extends BaseScreen
 		costPanel.add(costOutputLabel);
 		
 		// Add components to main panel
+		
 		panel.add(imagePanel);
 		panel.add(stationsPanel);
 		panel.add(createSeparatorPanel());
@@ -448,7 +454,7 @@ public class FindJourneyScreen extends BaseScreen
 		if (route != null) // Checks whether the route exists
 		{
 			setStopsList(route);
-			timeOutputLabel.setText(Utils.Format.formatJourneyTime(route.getJourneyTime()));
+			timeOutputLabel.setText(Utils.Format.formatJourneyTime(route.getJourneyTime())); // Displays the formatted time
 			setCostLabel(route);
 		}
 	}
@@ -485,15 +491,19 @@ public class FindJourneyScreen extends BaseScreen
 	{
 		if (stopsCombo.getSelectedItem().equals("Alphabetically")) // Checks whether the user wants to view the stops in alphabetical order
 		{
+			// Creates an array to store a duplicated copy of the stops in the route
+			// A new list must be created, otherwise the original array will be sorted and the route order will be lost
+			// Cannot assign to original array because it will only do "shallow copy" which will store the memory location
+			// Adds each item individually to perform a "deep copy" which creates a new object that will be stored independently of the original order
 			List<String> sortedList = new ArrayList<String>();
 			
 			for (String stop : route.getStops())
 			{
-				sortedList.add(stop);
+				sortedList.add(stop); // Adds the stop into the array
 			}
-			Collections.sort(sortedList);
+			Collections.sort(sortedList); // Sorts the duplicated array
 			
-			return sortedList;
+			return sortedList; // Returns the sorted array
 		}
 		return route.getStops();
 	}
@@ -521,8 +531,20 @@ public class FindJourneyScreen extends BaseScreen
 		
 		String discountMessage = ""; // Stores discount message
 		
+		int maxDays = Utils.MONTHS[journeyInformation.getDate().getMonthValue() - 1];
+		
+		if (journeyInformation.getDate().getMonthValue() == 2) // Checks if the month is February
+		{
+			// Checks if the year is a leap year
+			// A leap year is a year divisible by 4 and 400, but NOT 100
+			if ((journeyInformation.getDate().getYear() % 100 != 0 && journeyInformation.getDate().getYear() % 4 == 0) || journeyInformation.getDate().getYear() % 400 == 0)
+			{
+				maxDays = 29;
+			}
+		}
+		
 		// Checks whether the current journey date is on the last day of the month
-		if (Utils.MONTHS[journeyInformation.getDate().getMonthValue() - 1] == journeyInformation.getDate().getDayOfMonth())
+		if (maxDays == journeyInformation.getDate().getDayOfMonth())
 		{
 			cost *= 0.9F; // Reduces cost by 10%
 			discountMessage = " (10% off!)"; // Sets discount message
@@ -547,10 +569,10 @@ public class FindJourneyScreen extends BaseScreen
 			
 			try
 			{
-				stationsManager.setSaveLocation(selectedFile);
+				stationsManager.setSaveLocation(selectedFile); // Sets save directory to new location
 				stationsManager.routes = FileUtils.readRoutesFromFile(selectedFile.getAbsolutePath()); // Attempts to read stations from selected file
-				fileSelectButton.setText(selectedFile.getName());
-				fileErrorLabel.setVisible(false);
+				fileSelectButton.setText(selectedFile.getName()); // Sets text on button to file name (without directory)
+				fileErrorLabel.setVisible(false);// Hides the error message as process was successful
 			}
 			catch (Exception e)
 			{

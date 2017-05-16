@@ -8,7 +8,7 @@ package app.trainroutefinder.main;
 public class Main
 {
 	/**
-	 * main method for the application.
+	 * Main method for the application.
 	 * 
 	 * @param args Arguments when starting the application
 	 */

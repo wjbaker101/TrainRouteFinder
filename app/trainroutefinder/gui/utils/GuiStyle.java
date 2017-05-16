@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 
 /**
- * Stores styling for components.
+ * Contains styling for components.
+ * Allows for consistency between fonts and colours for the GUI.
  * 
  * @author William Baker
  *

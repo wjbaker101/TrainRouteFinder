@@ -2,6 +2,7 @@ package app.trainroutefinder.objects;
 
 /**
  * The type of journey the user can choose between.
+ * Enum allows for expanding for more journey types.
  * 
  * @author William Baker
  *

@@ -38,9 +38,25 @@ public class Utils
 		
 		int day = Integer.parseInt(split[0]); // Gets the integer value of the day
 		int month = Integer.parseInt(split[1]); // Gets the integer value of the month
+		int year = Integer.parseInt(split[2]); // Gets the integer value of the year
 		
-		if (day <= MONTHS[month - 1])
-			return day <= MONTHS[month - 1]; // Checks whether the day is less than or equal to the maximum number of days
+		if (month == 2) // Checks if the month is February
+		{
+			int leapYear = 28; // Stores the initial number of days in Feburary
+			
+			// Checks if the year is a leap year
+			// A leap year is a year divisible by 4 and 400, but NOT 100
+			if ((year % 100 != 0 && year % 4 == 0) || year % 400 == 0)
+			{
+				leapYear = 29; // New number of days for February
+			}
+			
+			if (day <= leapYear) return true; // Returns true if the number of days is less than 
+			else
+				throw new DateTimeParseException("Number of days is invalid.", date, 0); // Throws exception if number of days is invalid
+		}
+		else if (day <= MONTHS[month - 1])
+			return true; // Checks whether the day is less than or equal to the maximum number of days
 		else
 			throw new DateTimeParseException("Number of days is invalid.", date, 0); // Throws exception if number of days is invalid
 	}
@@ -111,7 +127,6 @@ public class Utils
 			if (decimals.length() < 2) // Checks whether there are less than 2 decimal places
 				formattedCost += "0"; // Add leading 0
 			
-			// Return formatted cost
 			return formattedCost;
 		}
 	}

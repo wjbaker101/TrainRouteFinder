@@ -15,7 +15,7 @@ import app.trainroutefinder.gui.utils.GuiStyle;
 import app.trainroutefinder.objects.StationsManager;
 
 /**
- * Main Screen for the user to interact with.
+ * Main Screen for the user to view and interact with.
  * 
  * @author William Baker
  *
@@ -32,7 +32,6 @@ public class MainScreen extends BaseScreen
 	{
 		super(container, stationsManager);
 		
-		// Creates header and title for main screen
 		JPanel titlePanel = new JPanel();
 		titlePanel.setBorder(new EmptyBorder(16, 16, 16, 16));
 		
@@ -41,13 +40,10 @@ public class MainScreen extends BaseScreen
 		
 		titlePanel.add(titleLabel);
 		
-		// Creates tabbed pane
-		// User will interact to switch between access to admin tools
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBackground(Color.WHITE);
 		tabbedPane.setFocusable(false); // Removes dotted border when focused
 		
-		// Creates panel for journey components
 		JPanel journeyTabPanel = new JPanel();
 		journeyTabPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		new FindJourneyScreen(journeyTabPanel, stationsManager); // Adds components from Find Journey screen
@@ -56,7 +52,6 @@ public class MainScreen extends BaseScreen
 		JScrollPane findJourneyPane = new JScrollPane(journeyTabPanel);
 		findJourneyPane.setBorder(new EmptyBorder(0, 0, 0, 0)); // Removed border around scroll pane
 		
-		// Creates panel for admin tools
 		JPanel adminTabPanel = new JPanel();
 		adminTabPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		new AdminScreen(adminTabPanel, stationsManager); // Adds components from Admin screen
@@ -70,6 +65,7 @@ public class MainScreen extends BaseScreen
 		tabbedPane.addTab("Admin Tools", adminPane);
 		
 		// Adds components
+		
 		container.add(titlePanel, BorderLayout.NORTH);
 		container.add(tabbedPane, BorderLayout.CENTER);
 	}

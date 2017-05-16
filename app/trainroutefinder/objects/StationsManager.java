@@ -19,7 +19,7 @@ public class StationsManager
 	
 	/**
 	 * List of routes available between 2 stations.
-	 */
+	 */	
 	public List<Route> routes;
 	
 	/**
@@ -72,6 +72,8 @@ public class StationsManager
 			new Route("York", "Derby", 7.20F, 16.00F, 85)
 		);
 		
+		// Sets the default save location to the stations.trf file
+		// This will be in the same directory as the one the application is in
 		this.setSaveLocation(new File("stations.trf"));
 	}
 	

@@ -80,7 +80,7 @@ public class Start
 			{
 				FileUtils.writeStationsToFile(this.stationsManager.routes, this.stationsManager.getSaveLocation().getAbsolutePath()); // Attempts to write stations from a file
 			}
-			catch(Exception ex) { }
+			catch(Exception e2) { }
 		}
 	}
 	
@@ -92,11 +92,13 @@ public class Start
 		try
 		{
 			// Sets the looks and feel to the system's looks and feel
+			// For example Windows or iOS
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception e) { }
 		
 		// Sets the default styles of components
+		// Will change the background colour and fonts of all components in the GUI
 		UIManager.getDefaults().put("Panel.background", Color.WHITE);
 		UIManager.getDefaults().put("Button.font", GuiStyle.Fonts.REGULAR);
 		UIManager.getDefaults().put("ComboBox.font", GuiStyle.Fonts.REGULAR);
